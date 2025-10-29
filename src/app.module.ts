@@ -8,6 +8,8 @@ import { Category } from './entity/category.entity';
 import { Transaction } from 'typeorm';
 import { TransactionModule } from './transaction/transaction.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
     CategoryModule,
     TransactionModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
