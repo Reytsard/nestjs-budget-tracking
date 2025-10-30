@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { UpdateTransactionDTO } from './dto/UpdateTransaction.dto';
 import { NewTransactionDTO } from './dto/newTransaction.dto';
-import { Transaction } from 'src/entity/transaction.entity';
+import { InjectModel } from '@nestjs/mongoose';
+import { Transaction } from 'src/entity/transaction.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class TransactionService {
   constructor(
-    @InjectRepository(Transaction)
-    private transactionRepository: Repository<Transaction>,
+    // @InjectRepository(Transaction)
+    // private transactionRepository: Repository<Transaction>,
+    @InjectModel(Transaction.name) private transactionRepository: Model<Transaction>
   ) {}
 
   async findAllTransactions() {
