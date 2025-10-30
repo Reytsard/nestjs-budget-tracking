@@ -17,13 +17,16 @@ export class TransactionService {
     // return await this.transactionRepository.find();
   }
 
-  async findTransactionFromYearAndMonth(year, month) {
-    // return await this.transactionRepository.find({})
+  async findTransactionFromYearAndMonth(year, month, uid) {
+    return await this.transactionRepository.find({uid})
   }
 
   async updateTransaction(id, updateTransactionDTO: UpdateTransactionDTO) {}
 
-  async createNewTransaction(newTransactionDto: NewTransactionDTO) {}
+  async createNewTransaction(newTransactionDto: NewTransactionDTO) {
+    const newTransaction = await new this.transactionRepository(newTransactionDto);
+    return newTransaction.save();
+  }
 
   async deleteTransactionWithId(id) {}
 }

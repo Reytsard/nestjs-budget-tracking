@@ -12,7 +12,7 @@ export class Transaction {
   uid: string;
 
   @Prop()
-  category: number;
+  category: string;
 
   @Prop()
   amount: number;

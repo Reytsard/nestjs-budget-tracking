@@ -40,10 +40,16 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(newUserDTO.password, salt);
     newUserDTO.password = hashedPassword;
     
-    if(newUserDTO.role){
-      newUserDTO.role = (await this.categoryService.getCategoryWithName(newUserDTO.role))?.id;
+    const newUser = await this.userRepository.create(newUserDTO);
+    if(newUserDTO.role && await this.categoryService.roleExists(newUserDTO.role)){
+      newUser.role = (await this.categoryService.getCategoryWithName(newUserDTO.role))!._id;
+    }else{
+      const userRole = await this.categoryService.getCategoryWithName("user");
+      if(!userRole){
+        throw new HttpException('user role not found', HttpStatus.GONE);
+      }
+      newUser.role = userRole!._id;
     }
-      const newUser = await this.userRepository.create(newUserDTO);
     return await newUser.save();
   }
 

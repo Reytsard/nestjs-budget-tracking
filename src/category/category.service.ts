@@ -33,6 +33,10 @@ export class CategoryService {
   //   },body);
   }
 
+  async roleExists(role:string){
+    return await this.categoryModel.exists({name: role});
+  }
+
   async findAllCategories() {
     return await this.categoryModel.find().exec();
   }
