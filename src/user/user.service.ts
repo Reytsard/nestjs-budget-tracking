@@ -4,12 +4,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/entity/user.schema';
 import { Model } from 'mongoose';
 import newUserDTO from './dto/newUser.dto';
+import { CategoryService } from 'src/category/category.service';
+import { Category } from 'src/entity/category.schema';
 
 @Injectable()
 export class UserService {
   constructor(
     // @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectModel(User.name) private userRepository: Model<User>
+    @InjectModel(User.name) private userRepository: Model<User>,
+    private categoryService:CategoryService
   ) {}
 
   public async findUserWithUsername(username: string) {
@@ -36,7 +39,15 @@ export class UserService {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(newUserDTO.password, salt);
     newUserDTO.password = hashedPassword;
-    const newUser = await this.userRepository.create(newUserDTO);
+    
+    if(newUserDTO.role){
+      newUserDTO.role = (await this.categoryService.getCategoryWithName(newUserDTO.role))?.id;
+    }
+      const newUser = await this.userRepository.create(newUserDTO);
     return await newUser.save();
+  }
+
+  public async findAll(){
+    return await this.userRepository.find().exec();
   }
 }

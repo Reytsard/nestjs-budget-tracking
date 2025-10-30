@@ -12,7 +12,7 @@ export class CategoryController {
   }
 
   @Post('/add')
-  async addCategory(@Query('category') category: CategoryDTO) {
+  async addCategory(@Body() category: CategoryDTO) {
     return await this.categoryService.addCategory(category);
   }
 

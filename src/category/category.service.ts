@@ -13,14 +13,18 @@ export class CategoryService {
   ) {}
 
   async addCategory(category: CategoryDTO) {
-    // const exists = await this.categoryModel.findOne({
-    //   name: category.name,
-    // });
-    // if (!exists) {
-    //   const newCategory = new this.categoryModel(category);
-    //   return newCategory.save();
-    // }
-    // return new HttpException('category already exists', HttpStatus.CONFLICT);
+    const exists = await this.categoryModel.exists({
+      name: category.name,
+    }).exec();
+    if (!exists) {
+      const newCategory = new this.categoryModel(category);
+      return newCategory.save();
+    }
+    return new HttpException('category already exists', HttpStatus.CONFLICT);
+  }
+
+  async getCategoryWithName(name: string){
+    return await this.categoryModel.findOne({name:name}).exec();
   }
 
   async updateCategory(body: CategoryDTO) {
@@ -30,6 +34,6 @@ export class CategoryService {
   }
 
   async findAllCategories() {
-    // return await this.categoryModel.find();
+    return await this.categoryModel.find().exec();
   }
 }
