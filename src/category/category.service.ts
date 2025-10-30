@@ -10,7 +10,7 @@ export class CategoryService {
     // @InjectRepository(Category)
     // private categoryRepository: Repository<Category>,
     @InjectModel(Category.name) private categoryModel: Model<Category>
-  ) {}
+  ) { }
 
   async addCategory(category: CategoryDTO) {
     const exists = await this.categoryModel.exists({
@@ -23,18 +23,18 @@ export class CategoryService {
     return new HttpException('category already exists', HttpStatus.CONFLICT);
   }
 
-  async getCategoryWithName(name: string){
-    return await this.categoryModel.findOne({name:name}).exec();
+  async getCategoryWithName(name: string) {
+    return await this.categoryModel.findOne({ name: name }).exec();
   }
 
   async updateCategory(body: CategoryDTO) {
-  //  return await this.categoryModel.findOneAndUpdate({
-  //     name: body.name,
-  //   },body);
+    //  return await this.categoryModel.findOneAndUpdate({
+    //     name: body.name,
+    //   },body);
   }
 
-  async roleExists(role:string){
-    return await this.categoryModel.exists({name: role});
+  async roleExists(role: string) {
+    return await this.categoryModel.exists({ name: role });
   }
 
   async findAllCategories() {

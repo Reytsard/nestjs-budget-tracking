@@ -11,22 +11,33 @@ export class TransactionService {
     // @InjectRepository(Transaction)
     // private transactionRepository: Repository<Transaction>,
     @InjectModel(Transaction.name) private transactionRepository: Model<Transaction>
-  ) {}
+  ) { }
 
-  async findAllTransactions() {
-    // return await this.transactionRepository.find();
+  async findAllTransactions(uid) {
+    return await this.transactionRepository.find({ uid });
   }
 
   async findTransactionFromYearAndMonth(year, month, uid) {
-    return await this.transactionRepository.find({uid})
+    const transactions = (await this.transactionRepository.find({ uid }))
+      .filter(transaction => {
+        const date = new Date(transaction.date);
+        return date.getFullYear >= year && date.getMonth >= month;
+      })
+    return transactions;
   }
 
-  async updateTransaction(id, updateTransactionDTO: UpdateTransactionDTO) {}
+  async updateTransaction(id, updateTransactionDTO: UpdateTransactionDTO) {
+    //make sure its the users transaction and not others
+    return await this.transactionRepository.findByIdAndUpdate(id, updateTransactionDTO);
+  }
 
   async createNewTransaction(newTransactionDto: NewTransactionDTO) {
     const newTransaction = await new this.transactionRepository(newTransactionDto);
     return newTransaction.save();
   }
 
-  async deleteTransactionWithId(id) {}
+  async deleteTransactionWithId(id) {
+    //validate if its the owner first before deleting
+    return await this.transactionRepository.findByIdAndDelete(id);
+  }
 }

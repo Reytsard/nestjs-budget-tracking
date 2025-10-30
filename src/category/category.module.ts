@@ -7,10 +7,10 @@ import { Category, CategorySchema } from 'src/entity/category.schema';
 @Module({
   imports: [
     // TypeOrmModule.forFeature([Category])
-    MongooseModule.forFeature([{name: Category.name, schema: CategorySchema}])
+    MongooseModule.forFeature([{ name: Category.name, schema: CategorySchema }])
   ],
   controllers: [CategoryController],
   providers: [CategoryService],
-  exports:[CategoryModule, MongooseModule]
+  exports: [CategoryModule, MongooseModule]
 })
-export class CategoryModule {}
+export class CategoryModule { }

@@ -4,7 +4,7 @@ import { LocalGuard } from './local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @UseGuards(LocalGuard)
   @Post('login')
@@ -14,7 +14,7 @@ export class AuthController {
 
   @UseGuards(LocalGuard)
   @Post('logout')
-  async logout(@Request() req){
+  async logout(@Request() req) {
     return req.logout();
   }
 }

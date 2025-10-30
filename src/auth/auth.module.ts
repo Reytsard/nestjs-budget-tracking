@@ -13,15 +13,15 @@ import { Category, CategorySchema } from 'src/entity/category.schema';
 import { CategoryService } from 'src/category/category.service';
 
 @Module({
-  imports:[MongooseModule.forFeature([{name:User.name, schema:UserSchema},{name:Category.name, schema:CategorySchema}]),
+  imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }, { name: Category.name, schema: CategorySchema }]),
   JwtModule.register({
-    secret:process.env.JWTCONSTANT!,
-    signOptions: {expiresIn: '60s'}
+    secret: process.env.JWTCONSTANT!,
+    signOptions: { expiresIn: '60s' }
   }),
-  CategoryModule,
-  UserModule
-],
+    CategoryModule,
+    UserModule
+  ],
   controllers: [AuthController],
   providers: [AuthService, UserService, CategoryService, LocalStrategy, JwtStrategy]
 })
-export class AuthModule {}
+export class AuthModule { }

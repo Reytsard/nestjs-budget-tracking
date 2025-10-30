@@ -3,8 +3,8 @@ import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy){
-    constructor(){
+export class JwtStrategy extends PassportStrategy(Strategy) {
+    constructor() {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
@@ -12,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy){
         })
     }
 
-    async validate(payload:any){
-        return {userId: payload.sub, username: payload.username};
+    async validate(payload: any) {
+        return { userId: payload.sub, username: payload.username };
     }
 }

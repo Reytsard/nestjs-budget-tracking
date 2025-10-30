@@ -5,14 +5,14 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService:UserService, private jwtService:JwtService) {}
+  constructor(private userService: UserService, private jwtService: JwtService) { }
 
-  async login(user:{username:string, uuid:string}) {
+  async login(user: { username: string, uuid: string }) {
     //get jwt here
-    if(!user){
+    if (!user) {
       throw new UnauthorizedException();
     }
-    const payload = {username: user.username, sub: user.uuid};
+    const payload = { username: user.username, sub: user.uuid };
     return {
       access_token: await this.jwtService.signAsync(payload, {
         secret: process.env.JWTCONSTANT!
@@ -20,10 +20,10 @@ export class AuthService {
     }
   }
 
-  async validateUser(username, password){
+  async validateUser(username, password) {
     const user = await this.userService.findUserWithUsername(username);
-    if(user && await bcrypt.compare(password, user.password)){
-      return {username: user.username,uuid: user.uuid};
+    if (user && await bcrypt.compare(password, user.password)) {
+      return { username: user.username, uuid: user.uuid };
     }
 
     return null;

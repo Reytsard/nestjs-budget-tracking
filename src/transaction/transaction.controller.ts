@@ -19,17 +19,19 @@ export class TransactionController {
   constructor(
     private transactionService: TransactionService,
     private categoryService: CategoryService,
-  ) {}
-  @Get('/')
-  async findAllTransactions() {
-    return await this.transactionService.findAllTransactions();
+  ) { }
+  @Get('/:id')
+  async findAllTransactions(
+    @Param('id') uid
+  ) {
+    return await this.transactionService.findAllTransactions(uid);
   }
 
   @Get('/:id/:year/:month')
   async findTransactionFromYearAndMonth(
     @Param('year') year: number,
     @Param('month') month: string,
-    @Param('id') uid:string,
+    @Param('id') uid: string,
   ) {
     return await this.transactionService.findTransactionFromYearAndMonth(
       year,

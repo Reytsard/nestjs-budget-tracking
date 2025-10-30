@@ -9,14 +9,14 @@ export class User {
   @Prop()
   uuid: string;
 
-  @Prop({required: true})
+  @Prop({ required: true })
   username: string;
 
-  @Prop({required: true})
+  @Prop({ required: true })
   password: string;
 
-  @Prop({type: Types.ObjectId, ref:Category.name})
-  role:Types.ObjectId;
+  @Prop({ type: Types.ObjectId, ref: Category.name })
+  role: Types.ObjectId;
 }
 
 

@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 
 export type TransactionType = HydratedDocument<Transaction>;
 
 @Schema()
 export class Transaction {
-    @Prop()
+  @Prop()
   id: number;
 
   @Prop()
@@ -16,6 +16,9 @@ export class Transaction {
 
   @Prop()
   amount: number;
+
+  @Prop({ default: new Date() })
+  date: Date;
 }
 
 export const TransactionSchema = SchemaFactory.createForClass(Transaction);

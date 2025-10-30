@@ -8,11 +8,11 @@ import { CategoryModule } from 'src/category/category.module';
 
 @Module({
   imports: [
-// TypeOrmModule.forFeature([Transaction, Category])
-    MongooseModule.forFeature([{name:Transaction.name, schema:TransactionSchema}]),
+    // TypeOrmModule.forFeature([Transaction, Category])
+    MongooseModule.forFeature([{ name: Transaction.name, schema: TransactionSchema }]),
     CategoryModule
   ],
   controllers: [TransactionController],
   providers: [TransactionService, CategoryService],
 })
-export class TransactionModule {}
+export class TransactionModule { }

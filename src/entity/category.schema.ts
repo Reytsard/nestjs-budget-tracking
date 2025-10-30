@@ -5,7 +5,7 @@ export type CategoryType = HydratedDocument<Category>;
 
 @Schema()
 export class Category {
-    
+
   @Prop()
   id: number;
 

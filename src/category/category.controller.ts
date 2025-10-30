@@ -4,7 +4,7 @@ import { CategoryDTO } from './dto/category.dto';
 
 @Controller('category')
 export class CategoryController {
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService) { }
 
   @Get('/')
   async findAllCategories() {
