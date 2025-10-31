@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UpdateTransactionDTO } from './dto/UpdateTransaction.dto';
 import { NewTransactionDTO } from './dto/newTransaction.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Transaction } from 'src/entity/transaction.schema';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 
 @Injectable()
 export class TransactionService {
@@ -26,9 +26,16 @@ export class TransactionService {
     return transactions;
   }
 
-  async updateTransaction(id, updateTransactionDTO: UpdateTransactionDTO) {
-    //make sure its the users transaction and not others
-    return await this.transactionRepository.findByIdAndUpdate(id, updateTransactionDTO);
+  async updateTransaction(id, updateTransactionDTO: UpdateTransactionDTO, uid) {
+    const transaction = await this.transactionRepository.findById(id);
+
+    if (transaction && transaction.uid.toString() === uid) {
+      //make sure its the users transaction and not others
+      return await this.transactionRepository.findByIdAndUpdate(id, updateTransactionDTO);
+    }
+
+    throw new UnauthorizedException();
+
   }
 
   async createNewTransaction(newTransactionDto: NewTransactionDTO) {
@@ -36,8 +43,14 @@ export class TransactionService {
     return newTransaction.save();
   }
 
-  async deleteTransactionWithId(id) {
-    //validate if its the owner first before deleting
-    return await this.transactionRepository.findByIdAndDelete(id);
+  async deleteTransactionWithId(id: string, uid: string) {
+    const transaction = await this.transactionRepository.findById(id);
+
+    if (transaction && transaction.uid.toString() === uid) {
+      //validate if its the owner first before deleting
+      return await this.transactionRepository.findByIdAndDelete(id);
+    }
+
+    throw new UnauthorizedException();
   }
 }

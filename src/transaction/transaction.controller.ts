@@ -48,19 +48,21 @@ export class TransactionController {
     );
   }
 
-  @Put('/update/:id')
+  @Put('/update/:id/:uid')
   async updateTransaction(
     @Param('id') transactionId,
+    @Param('uid') uid,
     @Body() updateTransactionDTO: UpdateTransactionDTO,
   ) {
     return await this.transactionService.updateTransaction(
       transactionId,
       updateTransactionDTO,
+      uid
     );
   }
 
-  @Delete('/delete/:id')
-  async deleteTransactionWithId(@Param('id') id) {
-    return await this.transactionService.deleteTransactionWithId(id);
+  @Delete('/delete/:id/:uid')
+  async deleteTransactionWithId(@Param('id') id: string, @Param('uid') uid) {
+    return await this.transactionService.deleteTransactionWithId(id, uid);
   }
 }
