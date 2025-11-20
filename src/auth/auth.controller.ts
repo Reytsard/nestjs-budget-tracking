@@ -22,8 +22,8 @@ export class AuthController {
       const token = await this.authService.login(req.user);
       res.cookie('token', token, {
         httpOnly: true,
-        secure: true,
-        sameSite: 'none',
+        secure: false, //change when in prod
+        sameSite: 'lax',
         maxAge: 1000 * 60 * 60,
       });
       return { message: 'login successful' };
@@ -37,8 +37,8 @@ export class AuthController {
   async logout(@Request() req, @Res({ passthrough: true }) res) {
     res.cookie('token', {
       httpOnly: true,
-      secure: true,
-      sameSite: 'none',
+      secure: false, //change when in prod
+      sameSite: 'lax',
       maxAge: 0,
     });
     return req.logout();
