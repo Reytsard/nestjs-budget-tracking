@@ -26,6 +26,7 @@ export class AuthController {
         sameSite: 'none',
         maxAge: 1000 * 60 * 60,
       });
+      return { message: 'login successful' };
     } catch (e) {
       return new UnauthorizedException();
     }
