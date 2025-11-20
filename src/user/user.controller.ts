@@ -4,15 +4,15 @@ import newUserDTO from './dto/newUser.dto';
 
 @Controller('user')
 export class UserController {
-    constructor(private userService:UserService){}
-    @Post('/create')
-    public createNewUser(@Body() newUserDTO:newUserDTO){
-        return this.userService.createNewUser(newUserDTO);
-    }
+  constructor(private userService: UserService) {}
+  @Post('/create')
+  public createNewUser(@Body() newUserDTO: newUserDTO) {
+    console.log(newUserDTO);
+    return this.userService.createNewUser(newUserDTO);
+  }
 
-    @Get('')
-    public getAllUsers(){
-        return this.userService.findAll();
-    }
-
+  @Get('')
+  public getAllUsers() {
+    return this.userService.findAll();
+  }
 }
